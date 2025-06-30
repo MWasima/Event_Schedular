@@ -1,0 +1,206 @@
+
+# Event Scheduler System — Flask App
+
+A simple Python Flask REST API to schedule, view, update, and delete events.  
+Event data is stored in a local JSON file so that data is preserved across restarts.
+
+---
+
+# Features
+
+- Create new events
+- List all events (sorted by start time)
+- Update existing events
+- Delete events
+- File-based data persistence (`events.json`)
+- Fully testable via Postman
+
+---
+
+# Requirements
+
+- Python 3.7+
+- pip (Python package manager)
+
+---
+
+# Dependencies
+
+Install required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Contents of `requirements.txt`:
+
+```
+flask
+```
+
+---
+
+# How to Run the App
+
+1. **Open terminal** in the project folder
+2. Run the app:
+
+```bash
+python app.py
+```
+
+The server will start on:
+
+```
+http://127.0.0.1:5000
+```
+
+---
+
+# API Endpoints (Use in Postman)
+
+### 1. Get all events
+
+**Request:**
+```http
+GET /events
+```
+
+**Response:**
+```json
+{
+  "events": [
+    {
+      "id": "b17fa1...",
+      "title": "Meeting with Ali",
+      "description": "Discuss the project plan",
+      "start_time": "2025-06-28 10:00",
+      "end_time": "2025-06-28 11:00"
+    }
+  ]
+}
+```
+
+---
+
+### 2. Create a new event
+
+**Request:**
+```http
+POST /events
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "title": "Team Standup",
+  "description": "Daily sync meeting",
+  "start_time": "2025-06-29 09:00",
+  "end_time": "2025-06-29 09:30"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Event created",
+  "event": {
+    "id": "ab13a7...",
+    "title": "Team Standup",
+    "description": "Daily sync meeting",
+    "start_time": "2025-06-29 09:00",
+    "end_time": "2025-06-29 09:30"
+  }
+}
+```
+
+---
+
+### 3. Update an event
+
+**Request:**
+```http
+PUT /events/<event_id>
+Content-Type: application/json
+```
+
+**Body:**
+```json
+{
+  "title": "Updated Meeting",
+  "description": "Discussed budget",
+  "start_time": "2025-06-29 10:00",
+  "end_time": "2025-06-29 11:00"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Event updated",
+  "event": {
+    "id": "same_id_as_before",
+    "title": "Updated Meeting",
+    "description": "Discussed budget",
+    "start_time": "2025-06-29 10:00",
+    "end_time": "2025-06-29 11:00"
+  }
+}
+```
+
+---
+
+### 4. Delete an event
+
+**Request:**
+```http
+DELETE /events/<event_id>
+```
+
+**Response:**
+```json
+{
+  "message": "Event deleted"
+}
+```
+
+---
+
+##  File Structure
+
+```
+event_scheduler/
+├── app.py               # Flask application
+├── events.py            # Event logic (CRUD)
+├── storage.py           # File I/O
+├── requirements.txt     # Dependencies
+├── README.md            # This file
+├── data/
+│   └── events.json      # Event data
+└── tests/
+    └── test_events.py   # Optional test file
+```
+
+---
+
+## Bonus (Optional)
+
+If we want to run tests:
+
+```bash
+pip install pytest
+pytest
+```
+
+---
+
+## Notes
+
+- The application uses simple in-file storage (`events.json`) for persistence.
+- IDs are generated using `uuid`.
+- Make sure `start_time` and `end_time` are proper date-time strings (e.g., `"2025-06-28 14:00"`)
+
+---
+
+
